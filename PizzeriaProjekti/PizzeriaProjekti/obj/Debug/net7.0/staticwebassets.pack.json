@@ -5,6 +5,14 @@
       "PackagePath": "staticwebassets\\PizzeriaProjekti.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\joel.juntunen3\\Documents\\GitHub\\PizzeriaProjekti\\PizzeriaProjekti\\PizzeriaProjekti\\wwwroot\\Images\\Hawaiian.jpg",
+      "PackagePath": "staticwebassets\\Images\\Hawaiian.jpg"
+    },
+    {
+      "Id": "C:\\Users\\joel.juntunen3\\Documents\\GitHub\\PizzeriaProjekti\\PizzeriaProjekti\\PizzeriaProjekti\\wwwroot\\Images\\Pepperoni.jpg",
+      "PackagePath": "staticwebassets\\Images\\Pepperoni.jpg"
+    },
+    {
       "Id": "C:\\Users\\joel.juntunen3\\Documents\\GitHub\\PizzeriaProjekti\\PizzeriaProjekti\\PizzeriaProjekti\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
     },

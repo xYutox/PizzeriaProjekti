@@ -5,12 +5,14 @@
 @using Microsoft.Extensions.Configuration
 @inject IDataAccess _data
 @inject IConfiguration _config
+@inject NavigationManager UriHelper
+
 
 <h3>Pizzat</h3>
 
-<button class=" btn btn-primary" @onclick="InsertData">Lisää</button>
-<button class=" btn btn-warning" @onclick="UpdateData">Päivitä</button>
-@*<button class=" btn btn-danger" @onclick="DeleteData">Poista</button> *@
+<button class=" btn btn-primary" @* @onclick="InsertData" *@>Lisää</button>
+<button class=" btn btn-warning" @* @onclick="UpdateData" *@>Päivitä</button>
+<button class=" btn btn-danger" @* @onclick="DeleteData" *@>Poista</button> 
 
 @if (pizzat == null)
 {
@@ -20,9 +22,16 @@ else
 {
     @foreach (var pizza in pizzat)
     {
-        <p>
-            @pizza.P_Nimi @pizza.Taytteet @pizza.P_hinta
-        </p>
+        <div class="card">
+            <img src="/Images/@pizza.P_Kuva" style="width:100%">
+            <h1>@pizza.P_Nimi</h1>
+            <p class="price">@pizza.P_hinta€</p>
+            <p>@pizza.Taytteet</p>
+            <NavLink href="">
+                <button>Lisää ostoskoriin</button>
+            </NavLink>            
+        </div>
+        <br>
     }
 }
 
@@ -30,6 +39,14 @@ else
 {
     List<PizzaModel> pizzat;
 
+    // SQL-kysely, joka hakee kaikki pizza-taulun tietueet
+    protected override async Task OnInitializedAsync()
+    {
+        string sql = "SELECT * FROM Pizza";
+        pizzat = await _data.LoadData<PizzaModel, dynamic>(sql, new { }, _config.GetConnectionString("default"));
+    }
+
+    // Tietojen syöttäminen SQL-tietokantaan
     private async Task InsertData()
     {
         string sql = "INSERT INTO Pizza (P_Nimi, Taytteet, P_Hinta) VALUES (@P_Nimi, @Taytteet, @P_Hinta)";
@@ -52,14 +69,9 @@ else
     {
         string sql = "DELETE FROM Pizza WHERE Pizza_ID = @Pizza_ID";
 
-        await _data.SaveData(sql, new { Pizza_ID = "2" }, _config.GetConnectionString("default"));
+        await _data.SaveData(sql, new { Pizza_ID = "1" }, _config.GetConnectionString("default"));
 
         await OnInitializedAsync();
     }
 
-    protected override async Task OnInitializedAsync()
-    {
-        string sql = "SELECT * FROM Pizza";
-        pizzat = await _data.LoadData<PizzaModel, dynamic>(sql, new{ }, _config.GetConnectionString("default"));
-    }
 }
