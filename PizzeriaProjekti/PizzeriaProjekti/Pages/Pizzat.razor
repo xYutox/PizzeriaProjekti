@@ -20,19 +20,84 @@
 }
 else
 {
+    int listCounter = 1;
+    bool newRow = true;
+
+    <table style="width:100%">   
+       
+        @foreach (var pizza in pizzat)
+        {
+            // rivin ensimmäinen solu
+            if (newRow)
+            {
+                newRow = false;
+                <tr>
+                    <td>
+                        <div class="card">
+                            <img src="/Images/@pizza.P_Kuva" style="width:100%">
+                            <h1>@pizza.P_Nimi</h1>
+                            <p class="price">@pizza.P_hinta€</p>
+                            <p>@pizza.Taytteet</p>
+                            <NavLink href="">
+                                <button>Lisää ostoskoriin</button>
+                            </NavLink>
+                        </div>
+                    </td>
+            }   
+            @* rivin toinen solu *@
+            else
+            {
+                <td>
+                    <div class="card">
+                        <img src="/Images/@pizza.P_Kuva" style="width:100%">
+                        <h1>@pizza.P_Nimi</h1>
+                        <p class="price">@pizza.P_hinta€</p>
+                        <p>@pizza.Taytteet</p>
+                        <NavLink href="">
+                            <button>Lisää ostoskoriin</button>
+                        </NavLink>
+                    </div>
+                </td>
+            }
+            @* rivin kolmas solu *@
+            else if (@listCounter % 3 == 0)
+            {
+                    <td>
+                        <div class="card">
+                            <img src="/Images/@pizza.P_Kuva" style="width:100%">
+                            <h1>@pizza.P_Nimi</h1>
+                            <p class="price">@pizza.P_hinta€</p>
+                            <p>@pizza.Taytteet</p>
+                            <NavLink href="">
+                                <button>Lisää ostoskoriin</button>
+                            </NavLink>
+                        </div>
+                    </td>
+                </tr>                
+                newRow = true;
+            }          
+
+            listCounter++;
+        }       
+    </table>
+
+    @* <ul>
     @foreach (var pizza in pizzat)
-    {
-        <div class="card">
-            <img src="/Images/@pizza.P_Kuva" style="width:100%">
-            <h1>@pizza.P_Nimi</h1>
-            <p class="price">@pizza.P_hinta€</p>
-            <p>@pizza.Taytteet</p>
-            <NavLink href="">
-                <button>Lisää ostoskoriin</button>
-            </NavLink>            
-        </div>
-        <br>
+    {        
+        <li style="float: left">
+            <div class="card">
+                <img src="/Images/@pizza.P_Kuva" style="width:100%">
+                <h1>@pizza.P_Nimi</h1>
+                <p class="price">@pizza.P_hinta€</p>
+                <p>@pizza.Taytteet</p>
+                <NavLink href="">
+                    <button>Lisää ostoskoriin</button>
+                </NavLink>
+            </div>
+            <br>
+        </li> 
     }
+    </ul> *@
 }
 
 @code 
