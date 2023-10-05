@@ -1,0 +1,17 @@
+﻿@page "/vahvista/{Pizza_ID}"
+
+@using DataLibrary
+@using PizzeriaProjekti.Models
+@using Microsoft.Extensions.Configuration
+@inject IDataAccess _data
+@inject IConfiguration _config
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+
+<h3>@Pizza_ID</h3>
+
+@code 
+{
+    [Parameter]
+    public int? Pizza_ID { get; set; }
+
+}

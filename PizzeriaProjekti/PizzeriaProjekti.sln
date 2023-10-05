@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzeriaProjekti", "PizzeriaProjekti\PizzeriaProjekti.csproj", "{F78C5B24-3788-49E1-8EC9-420E8B5787EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PizzeriaProjekti", "PizzeriaProjekti\PizzeriaProjekti.csproj", "{F78C5B24-3788-49E1-8EC9-420E8B5787EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLibrary", "DataLibrary\DataLibrary.csproj", "{FAB12CE7-3A63-41D0-9934-DF35981FCB4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLibrary", "DataLibrary\DataLibrary.csproj", "{FAB12CE7-3A63-41D0-9934-DF35981FCB4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

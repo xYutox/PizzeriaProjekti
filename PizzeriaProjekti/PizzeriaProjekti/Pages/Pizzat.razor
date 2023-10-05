@@ -5,12 +5,12 @@
 @using Microsoft.Extensions.Configuration
 @inject IDataAccess _data
 @inject IConfiguration _config
-@inject NavigationManager UriHelper
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
 
 
 <h3>Pizzat</h3>
 
-<button class=" btn btn-primary" @* @onclick="InsertData" *@>Lisää</button>
+<button class=" btn btn-primary" @onclick="InsertData" >Lisää</button>
 <button class=" btn btn-warning" @* @onclick="UpdateData" *@>Päivitä</button>
 <button class=" btn btn-danger" @* @onclick="DeleteData" *@>Poista</button> 
 
@@ -20,89 +20,33 @@
 }
 else
 {
-    int listCounter = 1;
-    bool newRow = true;
-
-    <table style="width:100%">   
-       
-        @foreach (var pizza in pizzat)
-        {
-            // rivin ensimmäinen solu
-            if (newRow)
-            {
-                newRow = false;
-                <tr>
-                    <td>
-                        <div class="card">
-                            <img src="/Images/@pizza.P_Kuva" style="width:100%">
-                            <h1>@pizza.P_Nimi</h1>
-                            <p class="price">@pizza.P_hinta€</p>
-                            <p>@pizza.Taytteet</p>
-                            <NavLink href="">
-                                <button>Lisää ostoskoriin</button>
-                            </NavLink>
-                        </div>
-                    </td>
-            }   
-            @* rivin toinen solu *@
-            else
-            {
-                <td>
-                    <div class="card">
-                        <img src="/Images/@pizza.P_Kuva" style="width:100%">
-                        <h1>@pizza.P_Nimi</h1>
-                        <p class="price">@pizza.P_hinta€</p>
-                        <p>@pizza.Taytteet</p>
-                        <NavLink href="">
-                            <button>Lisää ostoskoriin</button>
-                        </NavLink>
-                    </div>
-                </td>
-            }
-            @* rivin kolmas solu *@
-            else if (@listCounter % 3 == 0)
-            {
-                    <td>
-                        <div class="card">
-                            <img src="/Images/@pizza.P_Kuva" style="width:100%">
-                            <h1>@pizza.P_Nimi</h1>
-                            <p class="price">@pizza.P_hinta€</p>
-                            <p>@pizza.Taytteet</p>
-                            <NavLink href="">
-                                <button>Lisää ostoskoriin</button>
-                            </NavLink>
-                        </div>
-                    </td>
-                </tr>                
-                newRow = true;
-            }          
-
-            listCounter++;
-        }       
-    </table>
-
-    @* <ul>
+    <ul style="display: flex; list-style: none">
     @foreach (var pizza in pizzat)
-    {        
-        <li style="float: left">
+    {
+        <li style="margin: 0 10px; float: left">
             <div class="card">
+                <p hidden>@pizza.Pizza_ID bind="pizzaParam"</p>
                 <img src="/Images/@pizza.P_Kuva" style="width:100%">
                 <h1>@pizza.P_Nimi</h1>
                 <p class="price">@pizza.P_hinta€</p>
                 <p>@pizza.Taytteet</p>
-                <NavLink href="">
-                    <button>Lisää ostoskoriin</button>
-                </NavLink>
+                <button @onclick="SendID">Lisää ostoskoriin</button>
             </div>
-            <br>
-        </li> 
+        </li>   
     }
-    </ul> *@
+    </ul>
 }
 
 @code 
 {
     List<PizzaModel> pizzat;
+
+    private int pizzaParam;
+
+    private void SendID()
+    {
+        navigationManager.NavigateTo($"vahvista/{pizzaParam}");
+    } 
 
     // SQL-kysely, joka hakee kaikki pizza-taulun tietueet
     protected override async Task OnInitializedAsync()
