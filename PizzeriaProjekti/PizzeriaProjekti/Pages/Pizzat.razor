@@ -10,9 +10,11 @@
 
 <h3>Pizzat</h3>
 
+@* 
 <button class=" btn btn-primary" @onclick="InsertData" >Lisää</button>
-<button class=" btn btn-warning" @* @onclick="UpdateData" *@>Päivitä</button>
-<button class=" btn btn-danger" @* @onclick="DeleteData" *@>Poista</button> 
+<button class=" btn btn-warning" @onclick="UpdateData" >Päivitä</button>
+<button class=" btn btn-danger" @onclick="DeleteData" >Poista</button> 
+*@
 
 @if (pizzat == null)
 {
@@ -20,34 +22,41 @@
 }
 else
 {
-    <ul style="display: flex; list-style: none">
-    @foreach (var pizza in pizzat)
-    {
-        <li style="margin: 0 10px; float: left">
+    <div style="border: 2px outset black;}">
+
+        @foreach (var pizza in pizzat)
+        {
             <div class="card">
-                <p hidden>@pizza.Pizza_ID bind="pizzaParam"</p>
                 <img src="/Images/@pizza.P_Kuva" style="width:100%">
                 <h1>@pizza.P_Nimi</h1>
                 <p class="price">@pizza.P_hinta€</p>
                 <p>@pizza.Taytteet</p>
-                <button @onclick="SendID">Lisää ostoskoriin</button>
+                <button @onclick="() => SetID(pizza.Pizza_ID)" >Lisää ostoskoriin</button>
             </div>
-        </li>   
-    }
-    </ul>
+        }
+    </div>
 }
 
 @code 
 {
-    List<PizzaModel> pizzat;
+    public int paramID;
 
-    private int pizzaParam;
+    // funktio, joka määrittää parametrin arvon, kortin ID:n mukaan
+    private void SetID(int Pizza_ID)
+    {
+        paramID = Pizza_ID;
+        SendID();
+    }
 
     private void SendID()
     {
-        navigationManager.NavigateTo($"vahvista/{pizzaParam}");
-    } 
+        navigationManager.NavigateTo($"vahvistaPizza/{paramID}");
+    }
 
+
+    List<PizzaModel> pizzat;
+
+   
     // SQL-kysely, joka hakee kaikki pizza-taulun tietueet
     protected override async Task OnInitializedAsync()
     {

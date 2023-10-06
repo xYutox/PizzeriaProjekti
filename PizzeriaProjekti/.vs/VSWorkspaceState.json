@@ -2,7 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\PizzeriaProjekti",
-    "\\PizzeriaProjekti\\Pages"
+    "\\PizzeriaProjekti\\Pages",
+    "\\PizzeriaProjekti\\wwwroot",
+    "\\PizzeriaProjekti\\wwwroot\\css",
+    "\\PizzeriaProjekti\\wwwroot\\css\\bootstrap"
   ],
   "SelectedNode": "\\PizzeriaProjekti\\Pages\\Pizzat.razor",
   "PreviewInSolutionExplorer": false

@@ -1,4 +1,5 @@
-﻿@page "/vahvista/{Pizza_ID}"
+﻿@page "/vahvistaPizza"
+@page "/vahvistaPizza/{Pizza_ID:int}"
 
 @using DataLibrary
 @using PizzeriaProjekti.Models
@@ -7,11 +8,10 @@
 @inject IConfiguration _config
 @inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
 
-<h3>@Pizza_ID</h3>
+<p>@Pizza_ID</p>
 
 @code 
 {
     [Parameter]
     public int? Pizza_ID { get; set; }
-
 }
