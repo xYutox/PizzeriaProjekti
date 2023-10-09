@@ -9,3 +9,6 @@ https://www.youtube.com/watch?v=_JxC6EUxbDo
 https://www.youtube.com/playlist?list=PLLWMQd6PeGY2yqBcxsKvsNHplMrGa-SeK
 
 https://stackoverflow.com/questions/51226405/net-core-blazor-app-how-to-pass-data-between-pages
+
+CheckBox list
+https://stackoverflow.com/questions/51234654/net-core-blazor-how-to-get-the-checkbox-value-if-it-is-checked
