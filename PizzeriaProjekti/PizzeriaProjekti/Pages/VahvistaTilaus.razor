@@ -1,5 +1,5 @@
 ﻿@page "/vahvistaPizza"
-@page "/vahvistaPizza/{Pizza_ID:int}"
+@page "/vahvistaPizza/{paramPizza_ID:int}"
 
 @using DataLibrary
 @using PizzeriaProjekti.Models
@@ -8,10 +8,69 @@
 @inject IConfiguration _config
 @inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
 
-<p>@Pizza_ID</p>
+<table class="vahvista">
+    <tr>
+        @if (pizzat == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        //
+        else
+        {
+        <td>
+            <div>
+                @foreach (var pizza in pizzat)
+                {
+                    <div class="card">
+                        <img src="/Images/@pizza.P_Kuva" style="width:100%">
+                        <h1>@pizza.P_Nimi</h1>
+                        <p class="price">@pizza.P_hinta€</p>
+                        <p>@pizza.Taytteet</p>
+                    </div>                        
+                }
+            </div>
+        </td>
+        }
+        @if(lisataytteet != null)
+        {
+        <td>
+            @foreach (var lisatayte in lisataytteet)
+            {
+                <div>
+                    <input type="checkbox"> @lisatayte.LT_Nimi @lisatayte.LT_Hinta€
+                </div>
+            }
+        </td>
+        }
+
+        @if(paramPizza_ID == null)
+        {
+            <div class="centerDiv">
+                <h2>Error: 404</h2>
+            </div>
+        }        
+    </tr>
+</table>
 
 @code 
 {
     [Parameter]
-    public int? Pizza_ID { get; set; }
+    public int? paramPizza_ID { get; set; }
+
+    List<PizzaModel> pizzat;
+    List<LisatayteModel> lisataytteet;
+
+    // SQL-kysely
+    protected override async Task OnInitializedAsync()
+    {
+        string sql = "SELECT * FROM Pizza WHERE Pizza_ID = @paramPizza_ID";
+        // "@paramPizza_ID" tulee sivulle parametrina, joka määritetään sql-kyselyyn "new { }" kohdassa
+        pizzat = await _data.LoadData<PizzaModel, dynamic>(sql, new { paramPizza_ID = @paramPizza_ID }, _config.GetConnectionString("default"));
+
+        sql = "SELECT * FROM Lisatayte";
+        lisataytteet = await _data.LoadData<LisatayteModel, dynamic>(sql, new { }, _config.GetConnectionString("default"));
+    }
+
+    //
+
 }

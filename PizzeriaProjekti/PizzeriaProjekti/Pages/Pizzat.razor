@@ -22,7 +22,7 @@
 }
 else
 {
-    <div style="border: 2px outset black;}">
+    <div>
 
         @foreach (var pizza in pizzat)
         {
@@ -33,6 +33,7 @@ else
                 <p>@pizza.Taytteet</p>
                 <button @onclick="() => SetID(pizza.Pizza_ID)" >Lisää ostoskoriin</button>
             </div>
+            <br>
         }
     </div>
 }
