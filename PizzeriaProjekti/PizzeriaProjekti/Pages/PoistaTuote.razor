@@ -1,0 +1,43 @@
+﻿@page "/poista/{paramPizza_ID:int}"
+
+@using DataLibrary
+@using PizzeriaProjekti.Models
+@using Microsoft.Extensions.Configuration
+@inject IDataAccess _data
+@inject IConfiguration _config
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+
+<h2>Haluatko varmasti poistaa tuotteen?</h2>
+
+<table>
+    <tr>
+        <td>
+            <button @onclick="DestroyID">Vahvista</button>
+        </td>
+        <td>
+            <button @onclick="NavigateBack">Peruuta</button>
+        </td>
+    </tr>
+</table>
+
+
+
+@code 
+{
+    [Parameter]
+    public int? paramPizza_ID { get; set; }
+
+    private async Task DestroyID()
+    {
+        string sql = "DELETE FROM Pizza WHERE Pizza_ID = @paramPizza_ID";
+
+        await _data.SaveData(sql, new { paramPizza_ID = @paramPizza_ID }, _config.GetConnectionString("default"));
+
+        navigationManager.NavigateTo($"hallinta");
+    }
+
+    private void NavigateBack()
+    {
+        navigationManager.NavigateTo($"hallinta");        
+    }
+}

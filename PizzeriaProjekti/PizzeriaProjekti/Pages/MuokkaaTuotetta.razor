@@ -1,0 +1,95 @@
+﻿@page "/muokkaus"
+@page "/muokkaus/{paramPizza_ID:int}"
+
+@using DataLibrary
+@using PizzeriaProjekti.Models
+@using Microsoft.Extensions.Configuration
+@inject IDataAccess _data
+@inject IConfiguration _config
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+
+<h3>@paramPizza_ID</h3>
+
+@if (pizzat == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div>
+
+        @foreach (var pizza in pizzat)
+        {
+            <input type="text" value="@pizza.P_Nimi" />
+            <input type="text" value="@pizza.Taytteet" />
+            <input type="text" value="@pizza.P_hinta" />
+        }
+    </div>
+    <div>
+        <button>Tallenna</button>
+        <button @onclick="NavigateBack">Peruuta</button>
+    </div>
+}
+
+@* <table>
+    <tr>
+        <td>            
+            <input @bind="@Nimi"/>
+            <input placeholder="Täytteet" />
+            <input placeholder="Hinta" />
+        </td> 
+    </tr>
+    <tr>
+        <td>
+            <button>Tallenna</button>
+            <button @onclick="NavigateBack">Peruta</button>
+        </td>
+    </tr>
+</table> *@
+
+
+@code
+{
+    private string Nimi = "moi";
+
+    public int paramID;
+
+    [Parameter]
+    public int? paramPizza_ID { get; set; }
+
+    List<PizzaModel> pizzat;
+
+    private void NavigateBack()
+    {
+        navigationManager.NavigateTo($"hallinta");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        string sql = "SELECT * FROM Pizza WHERE Pizza_ID = @paramPizza_ID";
+        // "@paramPizza_ID" tulee sivulle parametrina, joka määritetään sql-kyselyyn "new { }" kohdassa
+        pizzat = await _data.LoadData<PizzaModel, dynamic>(sql, new { paramPizza_ID = @paramPizza_ID }, _config.GetConnectionString("default"));
+
+
+    }
+
+
+    private void SetID(int paramPizza_ID)
+    {
+        paramID = paramPizza_ID;
+        ChangeID();
+    }
+
+    private async Task ChangeID()
+    {
+        string sql = "INSERT INTO Pizza (P_Nimi, Taytteet, P_Hinta) VALUES (@P_Nimi, @Taytteet, @P_Hinta)";
+
+        await _data.SaveData(sql, new { P_Nimi = "Lollers", Taytteet = "tomaattikastike, juusto, ananas, kinkku", P_Hinta = "13.50" }, _config.GetConnectionString("default"));
+
+    }
+}
+
+@*
+<input placeholder="Something todo" />
+<button>Add todo</button>
+*@ 

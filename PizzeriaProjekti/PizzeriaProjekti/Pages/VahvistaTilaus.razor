@@ -8,17 +8,17 @@
 @inject IConfiguration _config
 @inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
 
+<h2>Vahvista</h2>
+
 <table class="vahvista">
     <tr>
         @if (pizzat == null)
         {
             <p><em>Loading...</em></p>
         }
-        //
         else
         {
-        <td>
-            <div>
+            <td>
                 @foreach (var pizza in pizzat)
                 {
                     <div class="card">
@@ -26,29 +26,34 @@
                         <h1>@pizza.P_Nimi</h1>
                         <p class="price">@pizza.P_hinta€</p>
                         <p>@pizza.Taytteet</p>
-                    </div>                        
+                    </div>
                 }
-            </div>
-        </td>
-        }
-        @if(lisataytteet != null)
-        {
-        <td>
-            @foreach (var lisatayte in lisataytteet)
-            {
-                <div>
-                    <input type="checkbox"> @lisatayte.LT_Nimi @lisatayte.LT_Hinta€
-                </div>
-            }
-        </td>
+            </td>
         }
 
-        @if(paramPizza_ID == null)
+        @if (paramPizza_ID == null)
         {
             <div class="centerDiv">
                 <h2>Error: 404</h2>
             </div>
-        }        
+        }
+        else if (lisataytteet != null)
+        {
+            <td>
+                @foreach (var lisatayte in lisataytteet)
+                {
+                    <div>
+                        <input type="checkbox"> @lisatayte.LT_Nimi @lisatayte.LT_Hinta€
+                    </div>
+                }
+            </td>
+        }
+    </tr>
+    <tr>
+        <td>
+            <button>Vahvista</button>
+            <button>Peruuta</button>
+        </td>
     </tr>
 </table>
 
