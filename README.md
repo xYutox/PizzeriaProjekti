@@ -14,3 +14,4 @@ CheckBox list
 https://stackoverflow.com/questions/51234654/net-core-blazor-how-to-get-the-checkbox-value-if-it-is-checked
 
 Form: https://blazor-university.com/forms/handling-form-submission/
+
