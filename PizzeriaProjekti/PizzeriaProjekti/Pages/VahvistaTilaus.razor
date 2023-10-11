@@ -52,13 +52,18 @@
     <tr>
         <td>
             <button>Vahvista</button>
-            <button>Peruuta</button>
+            <button @onclick="NavigateBack">Peruuta</button>
         </td>
     </tr>
 </table>
 
 @code 
 {
+    private void NavigateBack()
+    {
+        navigationManager.NavigateTo($"pizzat");
+    }
+
     [Parameter]
     public int? paramPizza_ID { get; set; }
 
