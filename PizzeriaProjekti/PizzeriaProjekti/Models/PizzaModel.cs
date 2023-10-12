@@ -1,4 +1,8 @@
-﻿namespace PizzeriaProjekti.Models
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+
+namespace PizzeriaProjekti.Models
 {
     public class PizzaModel
     {

@@ -1,0 +1,50 @@
+﻿@page "/lisaaTuote"
+
+@using DataLibrary
+@using PizzeriaProjekti.Models
+@using Microsoft.Extensions.Configuration
+@using System.ComponentModel.DataAnnotations
+@inject IDataAccess _data
+@inject IConfiguration _config
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+
+<EditForm Model="pizza" OnSubmit="() => InsertData(pizza.P_Nimi, pizza.Taytteet, pizza.P_hinta, pizza.P_Kuva)">
+    <DataAnnotationsValidator />
+    <div >
+        <label for="Name">Name</label>
+        <InputText @bind-Value=pizza.P_Nimi id="Name" />
+    </div>
+    <div>
+        <label for="Taytteet">Täytteet</label>
+        <InputText @bind-Value=pizza.Taytteet id="Taytteet" />
+    </div>
+    <div>
+        <label for="Hinta">Hinta</label>
+        <InputNumber @bind-Value=pizza.P_hinta id="Hinta" />
+    </div>
+    <div>
+        <label for="Kuva">Kuva</label>
+        <InputText @bind-Value=pizza.P_Kuva id="Kuva" />
+    </div>
+    <input type="submit" value="Tallenna" />
+</EditForm>
+<button @onclick="NavigateBack">Peruuta</button>
+
+@code 
+{
+    private async Task InsertData(string nimi, string taytteet, decimal hinta, string kuva)
+    {
+        string sql = "INSERT INTO Pizza (P_Nimi, Taytteet, P_Hinta, P_Kuva) VALUES (@P_Nimi, @Taytteet, @P_Hinta, @P_Kuva)";
+
+        await _data.SaveData(sql, new { P_Nimi = nimi, Taytteet = taytteet, P_Hinta = hinta, P_Kuva = kuva}, _config.GetConnectionString("default"));
+
+        navigationManager.NavigateTo($"hallinta");
+    }
+
+    PizzaModel pizza = new PizzaModel();
+
+    private void NavigateBack()
+    {
+        navigationManager.NavigateTo($"hallinta");
+    }
+}

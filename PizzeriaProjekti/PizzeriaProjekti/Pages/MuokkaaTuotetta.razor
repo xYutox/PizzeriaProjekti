@@ -4,6 +4,7 @@
 @using DataLibrary
 @using PizzeriaProjekti.Models
 @using Microsoft.Extensions.Configuration
+@using System.ComponentModel.DataAnnotations
 @inject IDataAccess _data
 @inject IConfiguration _config
 @inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
@@ -16,43 +17,37 @@
 }
 else
 {
-    <div>
-
-        @foreach (var pizza in pizzat)
-        {
-            <input type="text" value="@pizza.P_Nimi" />
-            <input type="text" value="@pizza.Taytteet" />
-            <input type="text" value="@pizza.P_hinta" />
-        }
-    </div>
-    <div>
-        <button>Tallenna</button>
+    @foreach (var pizza in pizzat)
+    {
+        <EditForm Model="pizzat" OnSubmit="() => SaveData(pizza.Pizza_ID, pizza.P_Nimi, pizza.Taytteet, pizza.P_hinta)">
+            <DataAnnotationsValidator />
+            <div>
+                <label for="Nimi">Nimi</label>
+                <InputText @bind-Value=pizza.P_Nimi id="Nimi" />
+            </div>
+            <div>
+                <label for="Taytteet">Täytteet</label>
+                <InputText @bind-Value=pizza.Taytteet id="Taytteet" />
+            </div>
+            <div>
+                <label for="Hinta">Hinta</label>
+                <InputNumber @bind-Value=pizza.P_hinta id="hinta" /> <br>
+            </div>
+            <input type="submit" value="Tallenna" />
+        </EditForm>
         <button @onclick="NavigateBack">Peruuta</button>
-    </div>
+    }
 }
-
-@* <table>
-    <tr>
-        <td>            
-            <input @bind="@Nimi"/>
-            <input placeholder="Täytteet" />
-            <input placeholder="Hinta" />
-        </td> 
-    </tr>
-    <tr>
-        <td>
-            <button>Tallenna</button>
-            <button @onclick="NavigateBack">Peruta</button>
-        </td>
-    </tr>
-</table> *@
-
 
 @code
 {
-    private string Nimi = "moi";
-
-    public int paramID;
+    private async Task SaveData(int id, string nimi, string taytteet, decimal hinta)
+    {
+        string sql = "UPDATE Pizza SET P_Nimi = @P_Nimi, Taytteet = @Taytteet, P_Hinta = @P_Hinta WHERE Pizza_ID = @Pizza_ID";
+        await _data.SaveData(sql, new { Pizza_ID = @id, P_Nimi = @nimi, Taytteet = @taytteet, P_Hinta = @hinta }, _config.GetConnectionString("default"));
+    
+        navigationManager.NavigateTo($"hallinta");
+    }
 
     [Parameter]
     public int? paramPizza_ID { get; set; }
@@ -69,27 +64,5 @@ else
         string sql = "SELECT * FROM Pizza WHERE Pizza_ID = @paramPizza_ID";
         // "@paramPizza_ID" tulee sivulle parametrina, joka määritetään sql-kyselyyn "new { }" kohdassa
         pizzat = await _data.LoadData<PizzaModel, dynamic>(sql, new { paramPizza_ID = @paramPizza_ID }, _config.GetConnectionString("default"));
-
-
-    }
-
-
-    private void SetID(int paramPizza_ID)
-    {
-        paramID = paramPizza_ID;
-        ChangeID();
-    }
-
-    private async Task ChangeID()
-    {
-        string sql = "INSERT INTO Pizza (P_Nimi, Taytteet, P_Hinta) VALUES (@P_Nimi, @Taytteet, @P_Hinta)";
-
-        await _data.SaveData(sql, new { P_Nimi = "Lollers", Taytteet = "tomaattikastike, juusto, ananas, kinkku", P_Hinta = "13.50" }, _config.GetConnectionString("default"));
-
     }
 }
-
-@*
-<input placeholder="Something todo" />
-<button>Add todo</button>
-*@ 

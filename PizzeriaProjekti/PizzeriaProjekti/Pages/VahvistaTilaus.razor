@@ -8,7 +8,9 @@
 @inject IConfiguration _config
 @inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
 
-<h2>Vahvista</h2>
+<PageTitle>Vahvista tilaus</PageTitle>
+
+<h2>Vahvista tilaus</h2>
 
 <table class="vahvista">
     <tr>
@@ -43,7 +45,7 @@
                 @foreach (var lisatayte in lisataytteet)
                 {
                     <div>
-                        <input type="checkbox"> @lisatayte.LT_Nimi @lisatayte.LT_Hinta€
+                        <input type="checkbox" @onchange="eventArgs => CheckBoxClicked(lisatayte.LT_Nimi, eventArgs.Value)"> @lisatayte.LT_Nimi @lisatayte.LT_Hinta€
                     </div>
                 }
             </td>
@@ -59,16 +61,16 @@
 
 @code 
 {
-    private void NavigateBack()
-    {
-        navigationManager.NavigateTo($"pizzat");
-    }
-
     [Parameter]
     public int? paramPizza_ID { get; set; }
 
     List<PizzaModel> pizzat;
     List<LisatayteModel> lisataytteet;
+
+    private void NavigateBack()
+    {
+        navigationManager.NavigateTo($"");
+    }
 
     // SQL-kysely
     protected override async Task OnInitializedAsync()
@@ -81,6 +83,24 @@
         lisataytteet = await _data.LoadData<LisatayteModel, dynamic>(sql, new { }, _config.GetConnectionString("default"));
     }
 
-    //
+    // lisätään listaan valitut lisätäytteet, joiden checkBox on valittu
+    public List<string> selectedItems { get; set; } = new List<string>();
 
+    public void CheckBoxClicked(string nimi, object checkedValue)
+    {
+        if ((bool)checkedValue)
+        {
+            if (!selectedItems.Contains(nimi))
+            {
+                selectedItems.Add(nimi);
+            }
+        }
+        else
+        {
+            if (selectedItems.Contains(nimi))
+            {
+                selectedItems.Remove(nimi);
+            }
+        }
+    }
 }
