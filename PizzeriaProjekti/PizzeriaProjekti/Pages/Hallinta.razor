@@ -25,8 +25,8 @@ else
                 <h1>@pizza.P_Nimi</h1>
                 <p class="price">@pizza.P_hinta€</p>
                 <p>@pizza.Taytteet</p>
-                <button @onclick="() => SetID(pizza.Pizza_ID)">Poista</button>
-                <button @onclick="() => SetID2(pizza.Pizza_ID)">Muokkaa</button>
+                <button @onclick="() => Delete(pizza.Pizza_ID)">Poista</button>
+                <button @onclick="() => Update(pizza.Pizza_ID)">Muokkaa</button>
             </div>
             <br>
         }
@@ -43,21 +43,15 @@ else
     public int paramID;
     List<PizzaModel> pizzat;
 
-    // funktio, joka määrittää parametrin arvon, kortin ID:n mukaan
 
-    private void SetID(int Pizza_ID)
+    private void Delete(int Pizza_ID)
     {
         paramID = Pizza_ID;
-        SendID();
-    }
-
-    private void SendID()
-    {
         navigationManager.NavigateTo($"poista/{paramID}");
     }
 
     //
-    private void SetID2(int Pizza_ID)
+    private void Update(int Pizza_ID)
     {
         paramID = Pizza_ID;
         navigationManager.NavigateTo($"muokkaus/{paramID}");
